@@ -9,10 +9,14 @@ class UpdateTodoPage extends ConsumerWidget {
   final Todo todo;
   final TextEditingController titleController;
   final TextEditingController descriptionController;
+  final TextEditingController priceController;
+
 
   UpdateTodoPage({required this.todo})
       : titleController = TextEditingController(text: todo.title),
-        descriptionController = TextEditingController(text: todo.description);
+        descriptionController = TextEditingController(text: todo.description),
+  priceController = TextEditingController(text: todo.price.toString());
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,19 +32,24 @@ class UpdateTodoPage extends ConsumerWidget {
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: InputDecoration(labelText: 'Title'),
+                  decoration: const InputDecoration(labelText: 'Title'),
                 ),
                 TextField(
                   controller: descriptionController,
-                  decoration: InputDecoration(labelText: 'Description'),
+                  decoration: const InputDecoration(labelText: 'Description'),
                 ),
-                SizedBox(height: 16),
+                TextField(
+                  controller: priceController,
+                  decoration: const InputDecoration(labelText: 'Price'),
+                ),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () async {
                     await ref.read(todoProvider.notifier).updateTodo(
                           todo.id,
                           titleController.text,
                           descriptionController.text,
+                      int.parse(priceController.text)
                         );
                     Navigator.pop(context);
                   },

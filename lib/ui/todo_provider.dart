@@ -7,19 +7,23 @@ import '../data/model/todo_model.dart';
 class TodoNotifier extends StateNotifier<TodoState> {
   TodoNotifier() : super(TodoState(todos: [], isLoading: false));
 
-  Future<void> addTodo(String title, String description)
+  Future<void> addTodo(String title, String description,int price)
+
   async {
     _setLoading(true);
     final newTodo = Todo(
       id: Random().nextInt(100000).toString(),
       title: title,
       description: description,
+      price: price
+
     );
     await Future.delayed(const Duration(seconds: 4));
     state = TodoState(todos: [...state.todos, newTodo], isLoading: false);
   }
 
-  Future<void> updateTodo(String id, String title, String description)
+  Future<void> updateTodo(String id, String title, String description,int price)
+
   async {
     _setLoading(true);
 
@@ -32,6 +36,7 @@ class TodoNotifier extends StateNotifier<TodoState> {
             id: id,
             title: title,
             description: description,
+            price: price
           )
         else
           todo,
@@ -39,12 +44,14 @@ class TodoNotifier extends StateNotifier<TodoState> {
   }
 
   Future<void> deleteTodo(String id)
+
   async {
     _setLoading(true);
 
     await  Future.delayed(const Duration(seconds: 4));
     state = TodoState(todos: state.todos.where((todo) => todo.id != id).toList(), isLoading: false);
   }
+
   void _setLoading(bool isLoading) {
     state = TodoState(todos: state.todos, isLoading: isLoading);
   }

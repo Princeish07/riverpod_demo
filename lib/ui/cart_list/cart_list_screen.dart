@@ -14,36 +14,57 @@ class CartListScreen extends ConsumerStatefulWidget {
 class _OrderListState extends ConsumerState<CartListScreen> {
   @override
   Widget build(BuildContext context) {
-    final cartProductList = ref.watch(orderNotifierProvider);
+    final cartProductList = ref.watch(orderProviderProvider);
+    // final grandTotal = ref.watch(grandTotalProvider);
+
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text("Cart List"),centerTitle: true,),
         body: SingleChildScrollView(
           child: Column(
-            children: cartProductList.map((e){
-              return Container(
-                color: Colors.yellow,
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all( 10),
-                child: Expanded(
-                  child: Row(
-                    children: [
+            children: [
+              Column(
+                children: cartProductList.map((e){
+                  return Container(
+                    color: Colors.yellow,
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all( 10),
+                    child: Expanded(
+                      child: Row(
+                        children: [
 
-                      Text(
-                        e!.name.toString(),
+                          Text(
+                            e!.name.toString(),
 
+                          ),
+                          const Spacer(),
+
+                               Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Rs. ${e.price.toString()}'),
+                              ),
+
+
+                          GestureDetector(onTap:(){
+                            ref.read(orderProviderProvider.notifier).remove(e);
+
+                          },child: const Text("Remove",style: TextStyle(color: Colors.red)))
+                          ],
                       ),
-                      const Spacer(),
+                    ),
+                  );
+                }).toList(),
+              ),
+              Consumer(
+        builder: (context,ref,child) {
 
-                      GestureDetector(onTap:(){
-                        ref.read(orderNotifierProvider.notifier).remove(e);
+      final price = ref.watch(grandTotalProvider);
 
-                      },child: const Text("Remove",style: TextStyle(color: Colors.red)))
-                      ],
-                  ),
-                ),
-              );
-            }).toList(),
+      return Text("Grand Total is : $price");
+                }
+              )
+            ],
           ),
         ),
       ),

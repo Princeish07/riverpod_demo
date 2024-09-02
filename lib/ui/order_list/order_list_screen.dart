@@ -18,7 +18,7 @@ class _OrderListState extends ConsumerState<OrderList> {
   @override
   Widget build(BuildContext context) {
     final allProductList = ref.watch(productListProvider);
-    final cartProductList = ref.watch(orderNotifierProvider);
+    final cartProductList = ref.watch(orderProviderProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -52,14 +52,14 @@ class _OrderListState extends ConsumerState<OrderList> {
 
                 if(cartProductList.contains(productItem)) ...[
                   GestureDetector(onTap:(){
-                    ref.read(orderNotifierProvider.notifier).remove(allProductList[index]);
+                    ref.read(orderProviderProvider.notifier).remove(allProductList[index]);
 
                   },child: const Text("Remove",style: TextStyle(color: Colors.red)))
                 ],
 
                 if(!cartProductList.contains(productItem))...[
                   GestureDetector(onTap:(){
-                    ref.read(orderNotifierProvider.notifier).addToCart(allProductList[index]);
+                    ref.read(orderProviderProvider.notifier).addToCart(allProductList[index]);
 
                   },child: const Text("Add to cart",style: TextStyle(color: Colors.green),))
                 ]

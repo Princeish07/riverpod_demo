@@ -6,6 +6,7 @@ import 'package:riverpod_demo/ui/todo_provider.dart';
 class CreateTodoPage extends ConsumerWidget {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,12 +29,19 @@ class CreateTodoPage extends ConsumerWidget {
                   controller: descriptionController,
                   decoration: InputDecoration(labelText: 'Description'),
                 ),
+                TextField(
+                  controller: priceController,
+                  decoration: InputDecoration(labelText: 'Price',),
+                  keyboardType: TextInputType.number,
+
+                ),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () async {
                    await ref.read(todoProvider.notifier).addTodo(
                       titleController.text,
                       descriptionController.text,
+                     int.parse(priceController.text)
                     );
                     Navigator.pop(context);
                   },
